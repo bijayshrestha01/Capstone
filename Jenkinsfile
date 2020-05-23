@@ -53,7 +53,7 @@ pipeline{
 
         stage('Configure kubectl'){
             steps{
-                withAWS(credentials: 'aws-kubectl', region: 'us-west-2'){
+                withAWS(credentials: 'aws-static', region: 'us-west-2'){
                     sh 'echo "Configure kubectl..."'
                     sh 'aws eks --region us-west-2 update-kubeconfig --name bijayudacitycapstone'
                 }
@@ -62,7 +62,7 @@ pipeline{
 
         stage('Deploy blue container'){
             steps{
-                withAWS(credentials: 'aws-kubectl', region: 'us-west-2'){
+                withAWS(credentials: 'aws-static', region: 'us-west-2'){
                     sh 'echo "Deploy blue container..."'
                     sh 'kubectl apply -f ./blue/blue.yaml'
                 }
@@ -71,7 +71,7 @@ pipeline{
 
         stage('Deploy green container'){
             steps{
-                withAWS(credentials: 'aws-kubectl', region:'us-west-2'){
+                withAWS(credentials: 'aws-static', region:'us-west-2'){
                     sh 'echo "Deploy green container..."'
                     sh 'kubectl apply -f ./green/green.yaml'
                 }
@@ -80,7 +80,7 @@ pipeline{
 
         stage('Create blue service'){
             stages{
-                withAWS(credentials: 'aws-kubectl', region: 'us-west-2'){
+                withAWS(credentials: 'aws-static', region: 'us-west-2'){
                     sh 'echo "Create blue service..."'
                     sh 'kubectl apply -f ./blue/blue_service.yaml'
                 }
@@ -89,7 +89,7 @@ pipeline{
 
         stage('Update service to green'){
             steps{
-                withAWS(credential: 'aws-kubectl', region: 'us-west-2'){
+                withAWS(credential: 'aws-static', region: 'us-west-2'){
                     sh 'echo "Update service to green..."'
                     sh 'kubectl apply -f ./green/green_service.yaml'
                 }
