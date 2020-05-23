@@ -79,7 +79,7 @@ pipeline{
         }
 
         stage('Create blue service'){
-            stages{
+            steps{
                 withAWS(credentials: 'aws-static', region: 'us-west-2'){
                     sh 'echo "Create blue service..."'
                     sh 'kubectl apply -f ./blue/blue_service.yaml'
@@ -89,7 +89,7 @@ pipeline{
 
         stage('Update service to green'){
             steps{
-                withAWS(credential: 'aws-static', region: 'us-west-2'){
+                withAWS(credentials: 'aws-static', region: 'us-west-2'){
                     sh 'echo "Update service to green..."'
                     sh 'kubectl apply -f ./green/green_service.yaml'
                 }
