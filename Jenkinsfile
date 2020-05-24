@@ -11,15 +11,8 @@ pipeline{
             }
         }
 
-        stage('Build & Push to dockerhub') {
-            steps {
-                script {
-                    dockerImage = docker.build("beej639/bijayudacitycapstone:${env.GIT_HASH}")
-                    docker.withRegistry('', dockerhubCredentials) {
-                        dockerImage.push()
-                    }
-                }
-            }
+        stage('Build Docker image') {
+             app = docker.build("hrohden/udacitycapstone")
         }
 
         stage('Create k8s cluster'){
