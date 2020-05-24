@@ -12,7 +12,8 @@ pipeline{
         }
 
         stage('Build Docker image') {
-              steps{app = docker.build("hrohden/udacitycapstone")
+              step{
+                  app = docker.build("hrohden/udacitycapstone")
               }      
         }
 
