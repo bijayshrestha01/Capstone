@@ -12,14 +12,14 @@ pipeline{
         }
 
         stage('Build Docker Image') {
-   	        steps {
-                withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'dockerhub', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']]){
-		        sh 'echo "Building Docker Image..."'
-                sh 'echo "just a test..."'
-     	        sh 'docker build -t beej639/UdacityCapstone .'
+   		steps {
+    			withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'dockerhub', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD']]){
+     			sh '''
+      			docker build -t beej639/UdacityCapstone:$BUILD_ID .
+     			'''
+    		}
 		}
-            }
-        }
+  	}
 	    
 	    stage('Push Image To Dockerhub') {
    	        steps {
