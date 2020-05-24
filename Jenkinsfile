@@ -11,10 +11,13 @@ pipeline{
             }
         }
 
-        stage("Build Docker Image"){
-            steps{
+        stage('Docker build') {
+            steps {
                 script {
-                    app_image = docker.build("beej639/bijayudacitycapstone")
+                    dockerImage = docker.build('beej639/bijayudacitycapstone')
+                    docker.withRegistry('', 'dockerhub') {
+                        dockerImage.push()
+                    }
                 }
             }
         }
