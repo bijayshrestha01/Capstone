@@ -15,7 +15,7 @@ pipeline{
             steps {
                 withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'dockerhub', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD']]){
                     sh '''
-                        docker build -t beej639/UdacityCapstone .
+                        docker build -t bshrestha01/UdacityCapstone .
                     '''
                 }
             }
@@ -27,7 +27,7 @@ pipeline{
 		        sh 'echo "Pushing Docker Image..."'
      	    	sh '''
                         docker login -u $USERNAME -p $PASSWORD
-			            docker push beej639/UdacityCapstone 
+			            docker push bshrestha01/UdacityCapstone 
                     '''
 		}
             }
