@@ -11,14 +11,25 @@ pipeline{
             }
         }
 
-        stage('Docker build') {
-            steps {
-                script {
-                    dockerImage = docker.build('beej639/CapstoneUdacity')
-                    docker.withRegistry('', 'dockerhub') {
-                        dockerImage.push()
-                    }
-                }
+        stage('Build Docker Image') {
+   	        steps {
+                withCredentials([usernamePassword(credentialsId: 'dockerhub', passwordVariable: 'PASSWORD', usernameVariable: 'USERNAME')]){
+		        sh 'echo "Building Docker Image..."'
+                sh 'echo "just a test..."'
+     	        sh 'docker build -t beej639/UdacityCapstone .'
+		}
+            }
+        }
+	    
+	    stage('Push Image To Dockerhub') {
+   	        steps {
+                withCredentials([usernamePassword(credentialsId: 'dockerhub', passwordVariable: 'PASSWORD', usernameVariable: 'USERNAME')]){
+		        sh 'echo "Pushing Docker Image..."'
+     	    	sh '''
+                        docker login -u $USERNAME -p $PASSWORD
+			            docker push beej639/UdacityCapstone 
+                    '''
+		}
             }
         }
 
