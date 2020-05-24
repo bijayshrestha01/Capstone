@@ -11,10 +11,12 @@ pipeline{
             }
         }
 
-        stage('Build Docker image') {
-              step{
-                  app = docker.build("hrohden/udacitycapstone")
-              }      
+        stage("Build Docker Image"){
+            steps{
+                script {
+                    app_image = docker.build("dbarahona/nd9991-capstone-app")
+                }
+            }
         }
 
         stage('Create k8s cluster'){
