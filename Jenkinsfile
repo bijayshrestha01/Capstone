@@ -12,7 +12,10 @@ pipeline{
             steps{
                 withCredentials([usernamePassword(credentialsId: 'dockerhub', passwordVariable: 'PASSWORD', usernameVariable: 'USERNAME')]){
                     sh 'echo "Building Docker Image..."'
-                    sh 'docker build -t beej639/bijayudacitycapstone .'
+                    script {
+                    def customImage = docker.build("my-image:${env.BUILD_ID}")
+                    
+                    }
                 }
             }
         }
