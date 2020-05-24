@@ -8,26 +8,26 @@ pipeline{
             }
         }
 
-        stage('Build Docker Image'){
-            steps{
-                withCredentials([usernamePassword(credentialsId: 'dockerhub', passwordVariable: 'PASSWORD', usernameVariable: 'USERNAME')]){
-                    sh 'echo "Building Docker Image..."'
-                    sh 'docker build -t bshrestha01/udacitycapstone .'
-                }
-            }
-        }
+        stage('Build Docker Image') {
+			steps {
+				withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'dockerhub', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD']]){
+					sh '''
+						sudo docker build -t bshrestha01/udacitycapstone .
+					'''
+				}
+			}
+		}
 
-        stage('Push Image To Dockerhub'){
-            steps{
-                withCredentials([usernamePassword(credentialsId: 'dockerhub', passwordVariable: 'PASSWORD', usernameVariable: 'USERNAME')]){
-                    sh 'echo "Pushing Docker Image..."'
-                    sh '''
-                        docker login -u $USERNAME -p $PASSWORD
-                        docker push bshrestha01/udacitycapstone
-                    '''    
-                }
-            }
-        }
+		stage('Push Image To Dockerhub') {
+			steps {
+				withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'dockerhub', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD']]){
+					sh '''
+						sudo docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD 
+						sudo docker push bshrestha01/udacitycapstone
+					'''
+				}
+			}
+		}
 
         stage('Create k8s cluster'){
             steps{
