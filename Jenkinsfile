@@ -12,7 +12,8 @@ pipeline{
         }
 
         stage('Build Docker image') {
-             app = docker.build("hrohden/udacitycapstone")
+              steps{app = docker.build("hrohden/udacitycapstone")
+              }      
         }
 
         stage('Create k8s cluster'){
