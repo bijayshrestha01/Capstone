@@ -13,7 +13,7 @@ pipeline{
 
         stage('Build Docker Image') {
    	        steps {
-                withCredentials([$class: 'UsernamePasswordMultiBinding', usernamePassword(credentialsId: 'dockerhub', passwordVariable: 'PASSWORD', usernameVariable: 'USERNAME')]){
+                withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'dockerhub', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']]){
 		        sh 'echo "Building Docker Image..."'
                 sh 'echo "just a test..."'
      	        sh 'docker build -t beej639/UdacityCapstone .'
