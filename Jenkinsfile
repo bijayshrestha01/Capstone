@@ -1,4 +1,7 @@
 pipeline{
+    environment {
+        dockerhubCredentials = 'dockerhub'
+    }
     agent any
     stages{
         stage('Lint HTML'){
@@ -8,23 +11,13 @@ pipeline{
             }
         }
 
-        stage('Build Docker Image'){
-            steps{
-                withCredentials([usernamePassword(credentialsId: 'dockerhub', passwordVariable: 'PASSWORD', usernameVariable: 'USERNAME')]){
-                    sh 'echo "Building Docker Image..."'
-                    sh 'docker build -t beej639/bijayudacitycapstone .'
-                }
-            }
-        }
-
-        stage('Push Image To Dockerhub'){
-            steps{
-                withCredentials([usernamePassword(credentialsId: 'dockerhub', passwordVariable: 'PASSWORD', usernameVariable: 'USERNAME')]){
-                    sh 'echo "Pushing Docker Image..."'
-                    sh '''
-                        docker login -u $USERNAME -p $PASSWORD
-                        docker push beej639/bijayudacitycapstone
-                    '''    
+        stage('Build & Push to dockerhub') {
+            steps {
+                script {
+                    dockerImage = docker.build("beej639/bijayudacitycapstone:${env.GIT_HASH}")
+                    docker.withRegistry('', dockerhubCredentials) {
+                        dockerImage.push()
+                    }
                 }
             }
         }
