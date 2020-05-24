@@ -14,7 +14,7 @@ pipeline{
         stage("Build Docker Image"){
             steps{
                 script {
-                    app_image = docker.build("dbarahona/nd9991-capstone-app")
+                    app_image = docker.build("beej639/bijayudacitycapstone")
                 }
             }
         }
