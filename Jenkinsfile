@@ -12,7 +12,7 @@ pipeline{
 			steps {
 				withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'dockerhub', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD']]){
 					sh '''
-						sudo docker build -t beej639/udacitycapstone .
+						docker build -t beej639/udacitycapstone .
 					'''
 				}
 			}
@@ -22,8 +22,8 @@ pipeline{
 			steps {
 				withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'dockerhub', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD']]){
 					sh '''
-						sudo docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD 
-						sudo docker push beej639/udacitycapstone
+						docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD 
+						docker push beej639/udacitycapstone
 					'''
 				}
 			}
