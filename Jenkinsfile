@@ -1,33 +1,37 @@
-pipeline{
-    agent any
-    stages{
-        stage('Lint HTML'){
-            steps{
-                sh 'echo "Lint check..."'
-                sh 'tidy -q -e *.html'
-            }
-        }
+pipeline {
+	agent any
+	stages {
 
-        stage('Build Docker Image') {
+		stage('Create kubernetes cluster') {
 			steps {
-				withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'dockerhub', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD']]){
+				withAWS(region:'us-west-2', credentials:'ecr_credentials') {
 					sh '''
-						docker build -t beej639/udacitycapstone .
+						eksctl create cluster \
+						--name udacitycapstone \
+						--version 1.13 \
+						--nodegroup-name standard-workers \
+						--node-type t2.micro \
+						--nodes 2 \
+						--nodes-min 1 \
+						--nodes-max 3 \
+						--node-ami auto \
+						--region us-west-2 \
 					'''
 				}
 			}
 		}
 
-		stage('Push Image To Dockerhub') {
+		
+
+		stage('Create conf file cluster') {
 			steps {
-				withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'dockerhub', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD']]){
+				withAWS(region:'us-east-1', credentials:'ecr_credentials') {
 					sh '''
-						docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD 
-						docker push beej639/udacitycapstone
+						aws eks --region us-west-2 update-kubeconfig --name udacitycapstone
 					'''
 				}
 			}
 		}
 
-    }
+	}
 }
