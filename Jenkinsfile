@@ -12,7 +12,7 @@ pipeline {
    	    steps {
                 withCredentials([usernamePassword(credentialsId: 'dockerhub', passwordVariable: 'PASSWORD', usernameVariable: 'USERNAME')]){
 		    sh 'echo "Building Docker Image..."'
-     	    	    sh 'docker build -t beej639/udacitycapstone .'
+     	    	    sh 'docker build -t beej639/udacitydevopscapstone .'
 		}
             }
         }
@@ -23,7 +23,7 @@ pipeline {
 		    sh 'echo "Pushing Docker Image..."'
      	    	    sh '''
                         docker login -u $USERNAME -p $PASSWORD
-			docker push beej639/udacitycapstone
+			docker push beej639/udacitydevopscapstone
                     '''
 		}
             }
