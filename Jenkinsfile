@@ -22,6 +22,7 @@ pipeline {
                 withCredentials([usernamePassword(credentialsId: 'dockerhub', passwordVariable: 'PASSWORD', usernameVariable: 'USERNAME')]){
 		    sh 'echo "Pushing Docker Image..."'
      	    	    sh '''
+		    	Building...
                         docker login -u $USERNAME -p $PASSWORD
 			docker push beej639/udacitydevopscapstone
                     '''
