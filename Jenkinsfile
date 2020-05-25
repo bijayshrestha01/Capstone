@@ -36,7 +36,7 @@ pipeline {
 		    sh '''
 			eksctl create cluster \
 			--name devopsproject \
-			--version 1.14 \
+			--version 1.16 \
 			--region us-west-2 \
 			--nodegroup-name standard-workers \
 			--node-type t2.micro \
