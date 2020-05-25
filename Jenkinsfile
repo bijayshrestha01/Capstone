@@ -29,25 +29,7 @@ pipeline {
             }
         }
 	    
-	stage('Create k8s cluster') {
-	    steps {
-		withAWS(credentials: 'aws-static', region: 'us-west-2') {
-		    sh 'echo "Create k8s cluster..."'
-		    sh '''
-			eksctl create cluster \
-			--name devopsproject \
-			--version 1.16 \
-			--region us-west-2 \
-			--nodegroup-name standard-workers \
-			--node-type t2.micro \
-			--nodes 2 \
-			--nodes-min 1 \
-			--nodes-max 3 \
-			--managed
-		'''
-		}
-	    }
-        }
+	
 	    
 	stage('Configure kubectl') {
 	    steps {
