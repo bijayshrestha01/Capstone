@@ -11,7 +11,7 @@ pipeline{
         stage('Docker build') {
             steps {
                 script {
-		    sh 'Building..."'
+		    sh 'Building...'
                     dockerImage = docker.build('beej639/udacity-capstone')
                     docker.withRegistry('', 'dockerhub') {
                         dockerImage.push()
