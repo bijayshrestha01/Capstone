@@ -10,9 +10,11 @@ pipeline {
 	    
 	stage('Build Docker Image') {
    	    steps {
-                withCredentials([usernamePassword(credentialsId: 'dockerhub', passwordVariable: 'PASSWORD', usernameVariable: 'USERNAME')]){
-		    sh 'echo "Building Docker Image..."'
-     	    	    sh 'docker build -t beej639/udacitydevopscapstone .'
+                withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'dockerhub', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD']]){
+			sh '''
+				echo "Building Docker Image..."
+				docker build -t beej639/udacitydevopscapstone .
+			'''
 		}
             }
         }
