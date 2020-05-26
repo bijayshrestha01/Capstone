@@ -32,7 +32,7 @@ pipeline {
 	    
 	stage('Set current kubectl context') {
 			steps {
-				withAWS(region:'us-west-2', credentials:'aws-static') {
+				withAWS(region:'us-west-2', credentials:'aws-kubectl') {
 					sh '''
 						kubectl config current-context
 						kubectl config get-contexts
@@ -44,7 +44,7 @@ pipeline {
 	    
 	stage('Deploy blue container') {
 			steps {
-				withAWS(region:'us-west-2', credentials:'aws-static') {
+				withAWS(region:'us-west-2', credentials:'aws-kubectl') {
 					sh '''
 						kubectl apply -f ./blue_controller.json
 					'''
