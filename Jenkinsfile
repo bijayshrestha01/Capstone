@@ -80,7 +80,7 @@ pipeline {
 
 	stage('Create the service in the cluster, redirect to green') {
 		steps {
-			withAWS(region:'us-east-2', credentials:'aws-credentials') {
+			withAWS(region:'us-east-2', credentials:'aws-kubectl') {
 				sh '''
 					echo "Complete..."
 				'''
