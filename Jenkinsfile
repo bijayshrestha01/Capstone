@@ -29,19 +29,12 @@ pipeline {
             }
         }
 	
-	stage('Configure kubectl') {
-	    steps {
-		withAWS(credentials: 'aws-static', region: 'us-west-2') {
-		    sh 'echo "Configure kubectl..."'
-		    sh 'aws eks --region us-west-2 update-kubeconfig --name devopscapstone' 
-		}
-	    }
-        }
 	    
 	stage('Set current kubectl context') {
 			steps {
 				withAWS(region:'us-west-2', credentials:'aws-static') {
 					sh '''
+						kubectl get pods
 						kubectl config get-contexts
 						kubectl config use-context arn:aws:eks:us-west-2:537256398869:cluster/devopscapstone
 					'''
