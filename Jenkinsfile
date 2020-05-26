@@ -31,16 +31,14 @@ pipeline {
 	    
 	
 	    
-	stage('Set current kubectl context') {
-			steps {
-				withAWS(region:'us-west-2', credentials:'aws-static') {
-					sh '''
-						kubectl config get-contexts
-						kubectl config use-context arn:aws:eks:us-west-2:537256398869:cluster/mydevopsproject
-					'''
-				}
-			}
+	stage('Configure kubectl') {
+	    steps {
+		withAWS(credentials: 'aws-static', region: 'us-west-2') {
+		    sh 'echo "Configure kubectl..."'
+		    sh 'aws eks --region us-west-2 update-kubeconfig --name devopsproject' 
 		}
+	    }
+        }
 	 
 	
    }   
