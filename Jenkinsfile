@@ -12,7 +12,7 @@ pipeline {
    	    steps {
                 withCredentials([usernamePassword(credentialsId: 'dockerhub', passwordVariable: 'PASSWORD', usernameVariable: 'USERNAME')]){
 		    sh 'echo "Building Docker Image..."'
-     	    	    sh 'docker build -t beej639/udacitydevopscapstone .'
+     	    	    sh 'docker build -t beej639/devopsproject .'
 		}
             }
         }
@@ -23,7 +23,7 @@ pipeline {
 		    sh 'echo "Pushing Docker Image..."'
      	    	    sh '''
                         docker login -u $USERNAME -p $PASSWORD
-			docker push beej639/udacitydevopscapstone
+			docker push beej639/devopsproject
                     '''
 		}
             }
@@ -32,7 +32,7 @@ pipeline {
 	    
 	stage('Set current kubectl context') {
 			steps {
-				withAWS(region:'us-west-2', credentials:'aws-static') {
+				withAWS(region:'us-west-2', credentials:'aws-kubectl') {
 					sh '''
 						kubectl config current-context
 						kubectl config get-contexts
@@ -44,7 +44,7 @@ pipeline {
 	    
 	stage('Deploy blue container') {
 			steps {
-				withAWS(region:'us-west-2', credentials:'aws-static') {
+				withAWS(region:'us-west-2', credentials:'aws-kubectl') {
 					sh '''
 						kubectl apply -f ./blue_controller.yml
 					'''
