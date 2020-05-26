@@ -31,26 +31,36 @@ pipeline {
 	
 	    
 	stage('Set current kubectl context') {
-			steps {
-				withAWS(region:'us-west-2', credentials:'aws-kubectl') {
-					sh '''
-						kubectl config current-context
-						kubectl config get-contexts
-						kubectl config use-context jenkins@devopsproject.us-west-2.eksctl.io
-					'''
+		steps {
+			withAWS(region:'us-west-2', credentials:'aws-kubectl') {
+				sh '''
+					kubectl config current-context
+					kubectl config get-contexts
+					kubectl config use-context jenkins@devopsproject.us-west-2.eksctl.io
+				'''
 				}
 			}
 	}
 	    
 	stage('Deploy blue container') {
-			steps {
-				withAWS(region:'us-west-2', credentials:'aws-kubectl') {
-					sh '''
-						echo "Complete.."
-					'''
+		steps {
+			withAWS(region:'us-west-2', credentials:'aws-kubectl') {
+				sh '''
+					echo "Complete.."
+				'''
 				}
 			}
 		}
+	    
+	stage('Deploy green container') {
+		steps {
+			withAWS(region:'us-east-2', credentials:'aws-credentials') {
+				sh '''
+					kubectl apply -f ./green-controller.json
+				'''
+				}
+			}
+	}
 	 
 	
    }   
