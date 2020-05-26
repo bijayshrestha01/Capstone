@@ -46,7 +46,7 @@ pipeline {
 			steps {
 				withAWS(region:'us-west-2', credentials:'aws-kubectl') {
 					sh '''
-						kubectl apply -f ./blue_controller.json
+						kubectl get pods blue-bdz68
 					'''
 				}
 			}
