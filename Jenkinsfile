@@ -34,7 +34,6 @@ pipeline {
 			steps {
 				withAWS(region:'us-west-2', credentials:'aws-static') {
 					sh '''
-						sudo -s
 						kubectl config current-context
 						kubectl config get-contexts
 						kubectl config use-context arn:aws:eks:us-west-2:537256398869:cluster/mydevopscapstone
