@@ -29,15 +29,6 @@ pipeline {
             }
         }
 	    
-	stage('Deploy blue container') {
-			steps {
-				withAWS(region:'us-west-2', credentials:'aws-static') {
-					sh '''
-						kubectl apply -f ./blue_controller.yml
-					'''
-				}
-			}
-		}
 	    
 	stage('Set current kubectl context') {
 			steps {
@@ -48,6 +39,16 @@ pipeline {
 				}
 			}
 	}
+	    
+	stage('Deploy blue container') {
+			steps {
+				withAWS(region:'us-west-2', credentials:'aws-static') {
+					sh '''
+						kubectl apply -f ./blue_controller.yml
+					'''
+				}
+			}
+		}
 	 
 	
    }   
