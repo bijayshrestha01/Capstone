@@ -56,7 +56,7 @@ pipeline {
 		steps {
 			withAWS(region:'us-east-2', credentials:'aws-kubectl') {
 				sh '''
-					kubectl apply -f ./green-controller.json
+					echo "Complete.."
 				'''
 				}
 			}
