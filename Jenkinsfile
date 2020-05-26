@@ -54,13 +54,40 @@ pipeline {
 	    
 	stage('Deploy green container') {
 		steps {
-			withAWS(region:'us-east-2', credentials:'aws-kubectl') {
+			withAWS(region:'us-west-2', credentials:'aws-kubectl') {
 				sh '''
-					echo "Complete.."
+					echo "Complete..."
 				'''
 				}
 			}
 	}
+	    
+	stage('Create the service in the cluster, redirect to blue') {
+		steps {
+			withAWS(region:'us-west-2', credentials:'aws-kubectl') {
+				sh '''
+					echo "Complete..."
+				'''
+				}
+			}
+		}
+
+	stage('Wait user approve') {
+            steps {
+                input "Ready to redirect traffic to green?"
+            }
+        }
+
+	stage('Create the service in the cluster, redirect to green') {
+		steps {
+			withAWS(region:'us-east-2', credentials:'aws-credentials') {
+				sh '''
+					echo "Complete..."
+				'''
+				}
+			}
+		}
+
 	 
 	
    }   
