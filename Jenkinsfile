@@ -35,7 +35,7 @@ pipeline {
 	    
 	stage('Deploy blue container') {
 		steps {
-			withAWS(region:'us-west-2', credentials:'aws-kubectl') {
+			withAWS(region:'us-west-2', credentials:'aws-static') {
 				sh '''
 					kubectl config current-context
 				'''
