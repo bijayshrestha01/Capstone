@@ -33,7 +33,7 @@ pipeline {
 	
 	 stage('Set current kubectl context') {
 	     steps {
-	    	withAWS(region:'us-west-2', credentials:'aws-kubectl') {
+	    	withAWS(region:'us-west-2', credentials:'aws-credentials') {
 	     	    sh '''
 			kubectl config current-context
 			kubectl config get-contexts
