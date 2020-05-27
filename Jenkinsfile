@@ -31,21 +31,40 @@ pipeline {
             }
         }
 	
-	 stage('Set current kubectl context') {
-	     steps {
-	    	withAWS(region:'us-west-2', credentials:'aws-credentials') {
-	     	    sh '''
-			kubectl config use-context arn:aws:eks:us-west-2:537256398869:cluster/mycapstone
-			'''
-		    }
-	      }
-	}
+	 stage('Create k8s cluster') {
+	    steps {
+		withAWS(credentials: 'aws-credentials', region: 'us-west-2') {
+		    sh 'echo "Create k8s cluster..."'
+		    sh '''
+			eksctl create cluster \
+			--name mydevopscapstone \
+			--version 1.16 \
+			--region us-west-2 \
+			--nodegroup-name standard-workers \
+			--node-type t2.micro \
+			--nodes 2 \
+			--nodes-min 1 \
+			--nodes-max 3 \
+			
+		'''
+		}
+	    }
+        }
+	    
+	stage('Configure kubectl') {
+	    steps {
+		withAWS(credentials: 'aws-credentials', region: 'us-west-2a') {
+		    sh 'echo "Configure kubectl..."'
+		    sh 'aws eks --region us-west-2 update-kubeconfig --name mydevopscapstone' 
+		}
+	    }
+        }
 
 	   
 	    
 	stage('Deploy blue container') {
 		steps {
-			withAWS(region:'us-west-2', credentials:'aws-kubectl') {
+			withAWS(region:'us-west-2', credentials:'aws-credentials') {
 				sh '''
 					kubectl apply -f ./blue_controller.json
 				'''
@@ -55,9 +74,9 @@ pipeline {
 	    
 	stage('Deploy green container') {
 		steps {
-			withAWS(region:'us-west-2', credentials:'aws-kubectl') {
+			withAWS(region:'us-west-2', credentials:'aws-credentials') {
 				sh '''
-					echo "Complete..."
+					kubectl apply -f ./green_controller.json
 				'''
 				}
 			}
@@ -65,9 +84,9 @@ pipeline {
 	    
 	stage('Create the service in the cluster, redirect to blue') {
 		steps {
-			withAWS(region:'us-west-2', credentials:'aws-kubectl') {
+			withAWS(region:'us-west-2', credentials:'aws-credentials') {
 				sh '''
-					echo "Complete..."
+					sh 'kubectl apply -f ./blue_service.json'
 				'''
 				}
 			}
@@ -81,7 +100,7 @@ pipeline {
 
 	stage('Create the service in the cluster, redirect to green') {
 		steps {
-			withAWS(region:'us-east-2', credentials:'aws-kubectl') {
+			withAWS(region:'us-west-2', credentials:'aws-credentials') {
 				sh '''
 					kubectl apply -f ./green_service.json
 				'''
