@@ -37,7 +37,7 @@ pipeline {
 	     	    sh '''
 			kubectl config current-context
 			kubectl config get-contexts
-			kubectl config use-context current-context
+			kubectl config use-context jenkins@devopsproject.us-west-2.eksctl.io
 			'''
 		    }
 	      }
