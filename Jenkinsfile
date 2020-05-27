@@ -37,7 +37,7 @@ pipeline {
 	     	    sh '''
 			kubectl config current-context
 			kubectl config get-contexts
-			kubectl config use-context arn:aws:eks:us-west-2:537256398869:cluster/devopsproject
+			kubectl config use-context current-context
 			'''
 		    }
 	      }
