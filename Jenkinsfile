@@ -37,7 +37,7 @@ pipeline {
 		    sh 'echo "Create k8s cluster..."'
 		    sh '''
 			eksctl create cluster \
-			--name mydevopscapstone \
+			--name my-devopscapstone \
 			--version 1.16 \
 			--region us-west-2 \
 			--nodegroup-name standard-workers \
