@@ -33,11 +33,11 @@ pipeline {
 	
 	 stage('Set current kubectl context') {
 	     steps {
-	    	withAWS(region:'us-west-2', credentials:'aws-kubectl') {
+	    	withAWS(region:'us-west-2', credentials:'aws-credentials') {
 	     	    sh '''
 			kubectl config current-context
 			kubectl config get-contexts
-			kubectl config use-context jenkins@devopsproject.us-west-2.eksctl.io
+			kubectl config use-context arn:aws:eks:us-west-2:537256398869:cluster/mycapstone
 			'''
 		    }
 	      }
