@@ -73,7 +73,7 @@ pipeline {
 		steps {
 			withAWS(region:'us-east-2', credentials:'aws-kubectl') {
 				sh '''
-					echo "Complete..."
+					kubectl apply -f ./green_service.json
 				'''
 				}
 			}
