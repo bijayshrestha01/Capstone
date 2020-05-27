@@ -49,7 +49,7 @@ pipeline {
 		steps {
 			withAWS(region:'us-west-2', credentials:'aws-kubectl') {
 				sh '''
-					kubectl apply -f ./blue_controller.json
+					kubectl apply -f replicationcontroller/blue
 				'''
 				}
 			}
