@@ -37,7 +37,7 @@ pipeline {
 		steps {
 			withAWS(region:'us-west-2', credentials:'aws-static') {
 				sh '''
-					kubectl config current-context
+					kubectl apply -f ./blue-controller.json
 				'''
 				}
 			}
