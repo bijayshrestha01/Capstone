@@ -35,7 +35,7 @@ pipeline {
 	    
 	stage('Configure kubectl') {
 	    steps {
-		withAWS(credentials: 'aws-credentials', region: 'us-west-2a') {
+		withAWS(credentials: 'aws-kubectl', region: 'us-west-2a') {
 		    sh '''
 		    echo "Configure kubectl..."
 	            '''
@@ -47,7 +47,7 @@ pipeline {
 	    
 	stage('Deploy blue container') {
 		steps {
-			withAWS(credentials:'aws-credentials', region: 'us-west-2a') {
+			withAWS(credentials:'aws-kubectl', region: 'us-west-2a') {
 				sh '''
 				       ~/var/lib/jenkins/.kube/config/kubectl apply -f ./blue_controller.json
 					
