@@ -31,32 +31,14 @@ pipeline {
             }
         }
 	
-	 stage('Create k8s cluster') {
-	    steps {
-		withAWS(credentials: 'aws-credentials', region: 'us-west-2') {
-		    sh 'echo "Create k8s cluster..."'
-		    sh '''
-			eksctl create cluster \
-			--name my-devopscapstone \
-			--version 1.16 \
-			--region us-west-2 \
-			--nodegroup-name standard-workers \
-			--node-type t2.micro \
-			--nodes 2 \
-			--nodes-min 1 \
-			--nodes-max 3 \
-			--managed
-			
-		'''
-		}
-	    }
-        }
+	 
 	    
 	stage('Configure kubectl') {
 	    steps {
 		withAWS(credentials: 'aws-credentials', region: 'us-west-2a') {
 		    sh 'echo "Configure kubectl..."'
 		    sh 'aws eks --region us-west-2 update-kubeconfig --name my-devopscapstone' 
+		    sh 'kubectl config get-contexts'
 		}
 	    }
         }
@@ -65,7 +47,7 @@ pipeline {
 	    
 	stage('Deploy blue container') {
 		steps {
-			withAWS(region:'us-west-2', credentials:'aws-credentials') {
+			withAWS(credentials:'aws-credentials', region: 'us-west-2a') {
 				sh '''
 					kubectl apply -f ./blue_controller.json
 				'''
