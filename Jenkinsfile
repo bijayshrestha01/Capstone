@@ -36,9 +36,11 @@ pipeline {
 	stage('Configure kubectl') {
 	    steps {
 		withAWS(credentials: 'aws-credentials', region: 'us-west-2a') {
-		    sh 'echo "Configure kubectl..."'
-		    sh 'kubectl get svc'
-		    sh 'kubectl config get-contexts'
+		    sh '''
+		    echo "Configure kubectl..."
+			sudo -s
+		    kubectl get svc
+		    kubectl config get-contexts
 	            
 		}
 	    }
