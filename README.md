@@ -21,4 +21,4 @@ Develop a CI/CD pipeline for microservice application with blue/green deployment
   - build kubernetes clusters
 
 ## Pipeline
-![](Jenkins_Pipeline.png)
+![](./Images/Jenkins_Pipeline.png)
