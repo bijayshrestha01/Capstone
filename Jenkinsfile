@@ -38,6 +38,8 @@ pipeline {
 		withAWS(credentials: 'aws-credentials', region: 'us-west-2') {
 		    sh '''
 		    echo "Configure kubectl..."
+		    aws eks --region us-west-2 update-kubeconfig --name my-devopscapstone
+		    kubectl config use-context  arn:aws:eks:us-west-2:537256398869:cluster/my-devopscapstone
 	            '''
 		}
 	    }
