@@ -41,7 +41,7 @@ pipeline {
 			sudo -s
 		    kubectl get svc
 		    kubectl config get-contexts
-	            
+	            '''
 		}
 	    }
         }
