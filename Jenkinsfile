@@ -38,7 +38,6 @@ pipeline {
 		withAWS(credentials: 'aws-credentials', region: 'us-west-2a') {
 		    sh '''
 		    echo "Configure kubectl..."
-		    chmod +x ./kubectl
 	            '''
 		}
 	    }
