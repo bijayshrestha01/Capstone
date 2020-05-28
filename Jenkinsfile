@@ -38,9 +38,7 @@ pipeline {
 		withAWS(credentials: 'aws-credentials', region: 'us-west-2a') {
 		    sh '''
 		    echo "Configure kubectl..."
-			sudo -s
-		    kubectl get svc
-		    kubectl config get-contexts
+		
 	            '''
 		}
 	    }
@@ -52,7 +50,8 @@ pipeline {
 		steps {
 			withAWS(credentials:'aws-credentials', region: 'us-west-2a') {
 				sh '''
-					kubectl apply -f ./blue_controller.json
+				       ~/var/lib/jenkins/.kube/config/kubectl apply -f ./blue_controller.json
+					
 				'''
 				}
 			}
