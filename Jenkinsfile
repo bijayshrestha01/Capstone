@@ -49,7 +49,7 @@ pipeline {
 		steps {
 			withAWS(credentials:'aws-kubectl', region: 'us-west-2a') {
 				sh '''
-				       ~/var/lib/jenkins/.kube/config/kubectl apply -f ./blue_controller.json
+				      kubectl apply -f ./blue_controller.json
 					
 				'''
 				}
